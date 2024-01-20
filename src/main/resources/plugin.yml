@@ -1,0 +1,7 @@
+name: MariaDB-Warp-Plugin
+version: '${project.version}'
+main: net.heckerdev.mariadbwarpplugin.MariaDB_Warp_Plugin
+api-version: '1.17'
+author: Hecker_01
+depend:
+  - Vault
