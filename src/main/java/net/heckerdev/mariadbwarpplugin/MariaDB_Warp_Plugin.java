@@ -2,12 +2,11 @@ package net.heckerdev.mariadbwarpplugin;
 
 import co.aikar.commands.PaperCommandManager;
 import net.heckerdev.mariadbwarpplugin.commands.*;
+import net.heckerdev.mariadbwarpplugin.database.DataSource;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import static net.heckerdev.mariadbwarpplugin.database.DataSource.initializeDatabase;
 
 public final class MariaDB_Warp_Plugin extends JavaPlugin {
 
@@ -16,7 +15,7 @@ public final class MariaDB_Warp_Plugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        initializeDatabase();
+        DataSource.initializeDatabase();
         setupCommands();
         setupPermissions();
         Bukkit.getLogger().info("[MariaDB_Warp_Plugin] has been enabled!");

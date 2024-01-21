@@ -2,6 +2,7 @@ package net.heckerdev.mariadbwarpplugin.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import net.heckerdev.mariadbwarpplugin.database.DataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static net.heckerdev.mariadbwarpplugin.database.DataSource.getConnection;
-
 @CommandAlias("setwarp|createwarp")
 public class SetwarpCommand extends BaseCommand {
     @Default
@@ -20,12 +19,12 @@ public class SetwarpCommand extends BaseCommand {
     @CommandCompletion(" true|false")
     public void onDefault(CommandSender sender, String[] args) {
         if (!sender.hasPermission("warpplugin.command.setwarp")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&l⚠&c You do not have permission to use this command!"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c⚠ You do not have permission to use this command!"));
         } else {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 0) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&l⚠&c You need to specify a warp name!&7 Usage: /setwarp &n<warpname>&r&7 [hidden]"));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c⚠ You need to specify a warp name! &7Usage: /setwarp &n<warpname>"));
                 } else {
                     String warpName = args[0];
                     Location loc = player.getLocation();
@@ -42,7 +41,7 @@ public class SetwarpCommand extends BaseCommand {
                         }
                     }
                     try {
-                        Connection connection = getConnection();
+                        Connection connection = DataSource.getConnection();
                         PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("INSERT INTO WarpsTable(WarpName, WorldName, X, Y, Z, Yaw, Pitch, Hidden) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
                         preparedStatement.setString(1, warpName.toLowerCase());
@@ -62,7 +61,7 @@ public class SetwarpCommand extends BaseCommand {
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&l⚠&c You must be a player to use this command!"));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c⚠ You must be a player to use this command!"));
             }
         }
     }
